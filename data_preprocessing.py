@@ -46,7 +46,7 @@ def clean_stocks():
     stocks = stocks.loc[(stocks.date >= startdate) & (stocks.date <= enddate)].sort_values('date').reset_index(drop = True)
     stocks = stocks.reset_index(drop = True)
     
-    stocks.to_csv(folder+"/clean_stocks.csv")
+    stocks.to_csv(folder+"/clean_stocks.csv", index = False)
     return stocks
 
 def clean(text):
@@ -81,7 +81,7 @@ def clean_tweets_keep_stopwords():
     nan_value = float("NaN")
     tweets['tweet'].replace("", nan_value, inplace=True)
     tweets.dropna(subset = ["tweet"], inplace=True)
-    tweets.to_csv(folder + "/clean_tweets_with_stopwords.csv")
+    tweets.to_csv(folder + "/clean_tweets_with_stopwords.csv", index = False)
     return tweets
 
 def clean_tweets_remove_stopwords():
@@ -96,5 +96,5 @@ def clean_tweets_remove_stopwords():
     nan_value = float("NaN")
     tweets['tweet'].replace("", nan_value, inplace=True)
     tweets.dropna(subset = ["tweet"], inplace=True)
-    tweets.to_csv(folder + "/clean_tweets_without_stopwords.csv")
+    tweets.to_csv(folder + "/clean_tweets_without_stopwords.csv", index = False)
     return tweets
