@@ -47,6 +47,7 @@ def clean_stocks():
     stocks = stocks.reset_index(drop = True)
     
     stocks.to_csv(folder+"/clean_stocks.csv")
+    return stocks
 
 def clean(text):
     text = re.sub(r"http\S+", " ", text) # remove urls
@@ -81,6 +82,7 @@ def clean_tweets_keep_stopwords():
     tweets['tweet'].replace("", nan_value, inplace=True)
     tweets.dropna(subset = ["tweet"], inplace=True)
     tweets.to_csv(folder + "/clean_tweets_with_stopwords.csv")
+    return tweets
 
 def clean_tweets_remove_stopwords():
     tweets = pd.read_csv(folder + '/musk_tweets.csv')
@@ -95,3 +97,4 @@ def clean_tweets_remove_stopwords():
     tweets['tweet'].replace("", nan_value, inplace=True)
     tweets.dropna(subset = ["tweet"], inplace=True)
     tweets.to_csv(folder + "/clean_tweets_without_stopwords.csv")
+    return tweets
