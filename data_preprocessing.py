@@ -102,3 +102,6 @@ def cut_dates(df):
     enddate = pd.to_datetime('2021-03-22')
     df = df.loc[(df.date >= startdate) & (df.date <= enddate)].sort_values('date').reset_index(drop = True)
     return df
+
+def remove_stopword(x):
+    return [y for y in x if y not in stopwords.words('english')]
