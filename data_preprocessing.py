@@ -41,9 +41,7 @@ def clean_stocks():
     stocks = stocks.append(missing).sort_values("date").reset_index(drop = True)
     stocks = stocks.iloc[:,:-1]
 
-    startdate = pd.to_datetime('2011-12-01')
-    enddate = pd.to_datetime('2021-03-22')
-    stocks = stocks.loc[(stocks.date >= startdate) & (stocks.date <= enddate)].sort_values('date').reset_index(drop = True)
+    stocks = cut_dates(stocks)
     stocks = stocks.reset_index(drop = True)
     
     stocks.to_csv(folder+"/clean_stocks.csv", index = False)
@@ -98,3 +96,9 @@ def clean_tweets_remove_stopwords():
     tweets.dropna(subset = ["tweet"], inplace=True)
     tweets.to_csv(folder + "/clean_tweets_without_stopwords.csv", index = False)
     return tweets
+
+def cut_dates(df):
+    startdate = pd.to_datetime('2011-12-01')
+    enddate = pd.to_datetime('2021-03-22')
+    df = df.loc[(df.date >= startdate) & (df.date <= enddate)].sort_values('date').reset_index(drop = True)
+    return df
