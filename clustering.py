@@ -226,4 +226,29 @@ def top_ten_words(tweets, clusters):
     summary_df = pd.DataFrame (summary, columns = ['Cluster', 'Size', 'Common words', 'Counts'])
     summary_df.style.set_properties(subset=['Common Words', 'Counts'], **{'width': '300px'})
     display(summary_df)
+
+def top_ten_words_v2(tweets, clusters):
+    #Cleaning
+    f0 = lambda x: data_preprocessing.remove_stopword(x)
+    f1 = lambda x: x.replace('.', '')
+    f2 = lambda x: x.replace(',', '')
+    f3 = lambda x: str(x).lower().split()
+    tweets = map(f1, tweets)
+    tweets = map(f2, tweets)
+    tweets = map(f3, tweets)
+    tweets = map(f0, tweets)
+
+    d = {'Tweet': tweets, 'Cluster': clusters}
+    df = pd.DataFrame(d)
+    summary = []
+    for cluster in np.unique(clusters):
+        top = Counter([item for sublist in  df[(df['Cluster'] == cluster)]['Tweet'] for item in sublist])
+        temp = pd.DataFrame(top.most_common(10))
+        temp.columns = ['Common_words','count']
+        summary.append([cluster, df[(df['Cluster'] == cluster)].shape[0], list(temp['Common_words']), list(temp['count'])])
+        temp.style.background_gradient(cmap='Blues')
+    
+    summary_df = pd.DataFrame (summary, columns = ['Cluster', 'Size', 'Common words', 'Counts'])
+    summary_df.style.set_properties(subset=['Common Words', 'Counts'], **{'width': '300px'})
+    return summary_df
         
