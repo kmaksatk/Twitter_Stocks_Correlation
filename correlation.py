@@ -1,6 +1,8 @@
 import pandas as pd
 import numpy as np
 import scipy.stats
+from wordcloud import WordCloud, STOPWORDS, ImageColorGenerator
+import matplotlib.pyplot as plt
 
 def cramers_corrected_stat(confusion_matrix):
   """ calculate Cramers V statistic for categorial-categorial association.
@@ -33,7 +35,7 @@ def stocks_changer(dataframe, p, delay):
 def find_correlation(df, cluster_methods):
   percents = [0,0.5,1,1.5,2]
   delays = [1,2,3]
-  types = ['sentiment', 'bertwitter_sentiment', 'hf_sentiment']
+  types = ['textblob_sentiment', 'bertweet_sentiment', 'distilbert_sentiment']
   corr_coef = pd.DataFrame(columns = ['method', 'cluster','type', 'cramer', 'percent_change', 'delay'])
   methods = cluster_methods
   for m in methods:
@@ -41,7 +43,7 @@ def find_correlation(df, cluster_methods):
     for c in clusters:
         clusterized = df.loc[df[m] == c].reset_index()
         for t in types:
-            if t == 'hf_sentiment':
+            if t == 'distilbert_sentiment':
               for d in delays:
                 changed_stocks = stocks_changer(clusterized, 0, d)
                 confusion_matrix = pd.crosstab(changed_stocks[t], changed_stocks.change)
@@ -55,3 +57,11 @@ def find_correlation(df, cluster_methods):
                     cramer = round(cramers_corrected_stat(confusion_matrix), 5)
                     corr_coef = corr_coef.append(pd.Series([m, c, t, cramer, p, d], index = corr_coef.columns), ignore_index=True)
   return corr_coef
+
+
+def generate_wordcloud(df, method, cluster):
+  text = df.loc[df[method] == cluster].tweet.str.cat(sep = '')
+  wordcloud = WordCloud(max_font_size=100, max_words=50, background_color="white").generate(text)
+  plt.imshow(wordcloud, interpolation='bilinear')
+  plt.axis("off")
+  plt.show()
