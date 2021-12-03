@@ -63,6 +63,8 @@ def find_correlation(df, cluster_methods):
 def generate_wordcloud(df, method, cluster):
   text = df.loc[df[method] == cluster].tweet.str.cat(sep = ' ')
   wordcloud = WordCloud(max_font_size=100, max_words=50, background_color="white").generate(text)
+  print(wordcloud.words_.keys())
+  wordcloud.to_file("wordclouds/"+str(method)+"_"+str(cluster)+".png")
   plt.imshow(wordcloud, interpolation='bilinear')
   plt.axis("off")
   plt.show()
