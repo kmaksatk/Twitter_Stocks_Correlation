@@ -11,15 +11,17 @@ nltk.download('punkt')
 
 folder = "files"
 
+
 def clean_stocks():
+    """
+    The function below cleans stocks and fills 
+    out the missing data using the method defined in paper
+    """
     stocks = pd.read_csv(folder+"/tesla_stocks.csv")
     stocks = stocks.rename(columns = str.lower)
     stocks = stocks.rename(columns = {'adj close':'adj'})
 
     stocks.date = pd.to_datetime(stocks.date)
-    # start = list(stocks.date)[0]
-    # end = list(stocks.date)[-1]
-    # pd.date_range(start = start, end = end).difference(stocks.date)
 
     len = stocks.date.shape[0]
     missing = pd.DataFrame(columns=stocks.columns)
@@ -47,7 +49,9 @@ def clean_stocks():
     stocks.to_csv(folder+"/clean_stocks.csv", index = False)
     return stocks
 
+
 def clean(text):
+    """Helper function that removes unnecessary symbols in tweets, but keeps stopwords"""
     text = re.sub(r"http\S+", " ", text) # remove urls
     text = re.sub(r"RT ", " ", text) # remove rt
     text = re.sub(r"[^a-zA-Z\'\.\,\d\s]", " ", text) # remove special character except # @ . ,
@@ -59,6 +63,7 @@ def clean(text):
     return text
 
 def clean_remove_stopwords(text):
+    """Helper function that removes unnecessary symbols and stopwords in tweets"""
     text = text.replace('\n',' ') #cleaning newline “\n” from the tweets
     text = re.sub(r'(@[A-Za-z0–9_]+)|[^\w\s]|#|http\S+', '', text)
     sw = stopwords.words('english') #you can adjust the language as you desire
@@ -68,6 +73,7 @@ def clean_remove_stopwords(text):
     return ' '.join(text)
 
 def clean_tweets_keep_stopwords():
+    """tweets cleaning function that keeps stopwords"""
     tweets = pd.read_csv(folder + '/musk_tweets.csv')
     tweets['tweet'] = tweets['tweet'].map(lambda a: clean(a))
     tweets = tweets.drop(['Unnamed: 0', 'id', 'conversation_id', 'created_at', 
@@ -83,6 +89,7 @@ def clean_tweets_keep_stopwords():
     return tweets
 
 def clean_tweets_remove_stopwords():
+    """tweets cleaning function that removes stopwords"""
     tweets = pd.read_csv(folder + '/musk_tweets.csv')
     tweets['tweet'] = tweets['tweet'].map(lambda a: clean_remove_stopwords(a))
     tweets = tweets.drop(['Unnamed: 0', 'id', 'conversation_id', 'created_at', 
@@ -97,7 +104,9 @@ def clean_tweets_remove_stopwords():
     tweets.to_csv(folder + "/clean_tweets_without_stopwords.csv", index = False)
     return tweets
 
+
 def cut_dates(df):
+    """This function cuts dates based on the datasets limits for the date"""
     startdate = pd.to_datetime('2011-12-01')
     enddate = pd.to_datetime('2021-03-22')
     df = df.loc[(df.date >= startdate) & (df.date <= enddate)].sort_values('date').reset_index(drop = True)
