@@ -13,11 +13,8 @@
 </p>
 “Tesla’s stock price is too high imo” - this tweet was posted on the 1st May of 2020 by Elon Musk. On the same day, Tesla's stock price had a significant drop by ten percent. The link between Twitter and Stocks markets has been explored before. Most of them dealt with the crowd's opinion and tweets were either labeled manually or selected with certain conditions. The problem with such an approach is that it doesn't consider the whole scale of tweets, and possibly overfits in some cases. Meanwhile, our project focuses on the entire history of Elon Musk's Twitter and applies unsupervised techniques for identifying Tesla-related tweets. Our agenda is to cluster the tweets using unsupervised learning methods to find the Tesla-related tweets, then find their sentiments and finally get the correlation with stocks. Ultimately, we want to make a pipeline that can identify the topic of the new tweet, its sentiment and tell if the stock will increase or decrease. We checked the following hypothesis, does the sentiment of Musk's tweets have any correlation with Tesla's stock prices throughout 10 years.  There are specific cases that show the influence of Musk's social media tool on the stocks market, however, the latter depends on so many other factors like news about their competitors, quality of their products, etc. Our project tried to weigh Twitter's influence on Tesla's economy. For that purpose, we calculated the Cramer's V correlation coefficient. While we understand that the tone of the tweet may not correlate with the increase or decrease of the stocks, our hypothesis is based on several previous works that have tested the same exact connection.
 
-
-This repository contains: .
-
 ## Installation
-For this project, you must have the ```cuda-11.2``` support. Run the code above to install the required libraries for this project:
+For this project, you must have the ```cuda-11.2``` support. Run the code below to install the required libraries for this project:
 
 ```yaml
 # clone project
@@ -39,7 +36,7 @@ which nvcc
 ```
 ## Project Files Description
 
-<p>This Project includes 3 executable files, 3 text files as well as 2 directories as follows:</p>
+<p>This Project includes 3 notebook files, 5 method files as well as 2 directories as follows:</p>
 <h4>Notebook Files:</h4>
 <ul>
   <li><b>clustering_analysis.ipynb</b> - performs clustering on tweets using different embeddings</li>
@@ -90,17 +87,18 @@ clustering.py:
 
 
 ## Demo 
-As inputs we take the datasets extracted from files musk_tweets.csv and tesla_stocks.csv. The final result with Cramer's V coefficient results can be seen in cramer_results.csv. For your ease, we created a script that describes the files and shows the first five rows. Just run the code below and follow the instructions inside. 
+Since we have a NLP-specific tasks our inputs and outputs are just tables. As inputs we take the datasets extracted from files musk_tweets.csv and tesla_stocks.csv. The final result with Cramer's V coefficient results can be seen in cramer_results.csv. For your ease, we created a script that describes the files and shows the first five rows. Just run the code below and follow the instructions inside. 
 
 ```yaml
 python3 main.py
 ```
 
 To see the detailed results of the clustering, sentiment analysis and the correlation estimation see the corresponding .ipynb notebooks. They have detailed descriptions of the process and results.
-### WARNING: DO NOT RUN THE NOTEBOOKS BY YOURSELF, THE FINAL RESULT MAY DIFFER FROM THE ONES IN THE PAPER IF YOU RUN THEM.
+#### WARNING: DO NOT RUN THE NOTEBOOKS BY YOURSELF, THE FINAL RESULT MAY DIFFER FROM THE ONES IN THE PAPER IF YOU RUN THEM.
 
 ## Datasets
 
+The datasets are both available at kaggle.com
 1. [Elon Musk Tweets (2010 - 2021)](https://www.kaggle.com/ayhmrba/elon-musk-tweets-2010-2021?select=2021.csv)
 2. [TESLA Stock Data](https://www.kaggle.com/varpit94/tesla-stock-data-updated-till-28jun2021?select=TSLA.csv)
 
