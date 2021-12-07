@@ -17,7 +17,7 @@
 This repository contains: .
 
 ## Installation
-For this project, you must have the ```cuda-11.2``` support
+For this project, you must have the ```cuda-11.2``` support. Run the code above to install the required libraries for this project:
 
 ```yaml
 # clone project
@@ -34,34 +34,52 @@ If you have the required version of ```cuda```, but at startup it says that the 
 module avail
 # select the necessary version of cuda
 module load cuda-11.2
+# to check the version of cuda
+which nvcc
 ```
 ## Project Files Description
 
 <p>This Project includes 3 executable files, 3 text files as well as 2 directories as follows:</p>
-<h4>Executable Files:</h4>
+<h4>Notebook Files:</h4>
 <ul>
-  <li><b>spam_detector.py</b> - Includes all functions required for classification operations.</li>
-  <li><b>train.py</b> - Uses the functions defined in the spam_detector.py file and generates the model.txt file after execution.</li>
-  <li><b>test.py</b> - Uses the functions defined in the spam_detector.py file and, after execution, generates the result.txt as well as evaluation.txt files.</li>
+  <li><b>clustering_analysis.ipynb</b> - performs clustering on tweets using different embeddings</li>
+  <li><b>sentiment_analysis.ipynb</b> - performs sentiment analysis on the tweet data using different methods</li>
+  <li><b>correlation_analysis.ipynb</b> - performs sentiment analysis on the tweet data using different methods</li>
 </ul>
 
-<h4>Output Files:</h4>
+<h4>Method Files:</h4>
 <ul>
-  <li><b>model.txt</b> - Contains information about the vocabularies of the train set, such as the frequency and conditional probability of each word in Spam and Ham classes.</li>
-  <li><b>result.txt</b> - Contains information about the classified emails of the test set.</li>
-  <li><b>evaluation.txt</b> - Contains evaluation results table as well as Confusion Matrix of Spam and Ham classes.</li>
+  <li><b>data_preprocessing.py</b> - </li>
+  <li><b>clustering.py</b> - </li>
+  <li><b>sentiment.py</b> - </li>
+  <li><b>correlation.py</b> - </li>
+  <li><b>sentiment.py</b> - </li>
 </ul>
 
 <h4>Source Directories:</h4>
 <ul>
-  <li><b>train directory</b> - Includes all emails for the training phase of the program.</li>
-  <li><b>test directory</b> - Includes all emails for the testing phase of the program.</li>
+  <li><b>files</b> - contains .сsv files which contain data from Elon Musk's tweets and Tesla's stocks after applying various operations</li>
+  <li><b>word clouds</b> - contains wordclouds of clusters from different embedding methods</li>
+</ul>
+
+<h4>'files' directory structure:</h4>
+<ul>
+  <li><b>files</b> - contains .сsv files which contain data from Elon Musk's tweets and Tesla's stocks after applying various operations</li>
+  <li><b>word clouds</b> - contains wordclouds of clusters from different embedding methods</li>
 </ul>
 
 
 
 ## Demo 
+As inputs we take the datasets extracted from files musk_tweets.csv and tesla_stocks.csv. The final result with Cramer's V coefficient results can be seen in cramer_results.csv. For your ease, we created a script that describes the files and shows the first five rows. Just run the code below and follow the instructions inside. 
 
+```
+yaml
+python3 main.py
+```
+
+To see the detailed results of the clustering, sentiment analysis and the correlation estimation see the corresponding .ipynb notebooks. They have detailed descriptions of the process and results.
+### WARNING: DO NOT RUN THE NOTEBOOKS BY YOURSELF, THE FINAL RESULT MAY DIFFER FROM THE ONES IN THE PAPER IF YOU RUN THEM.
 
 ## Datasets
 
