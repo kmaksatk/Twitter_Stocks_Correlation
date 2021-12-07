@@ -35,8 +35,10 @@ module load cuda-11.2
 which nvcc
 ```
 ## Project Files Description
-
-<p>This Project includes 3 notebook files, 5 method files as well as 2 directories as follows:</p>
+<p>The repository has two branches: master and topic_modelling <br>
+Master: main repository used in the project <br>
+Topic_modelling: This is a work in progress, its not mentioned in the paper, but we liked the approach of topic modelling and possibly will implement it in the future for ourselves. </p>
+<p>This project includes 3 notebook files, 5 method files as well as 2 directories as follows:</p>
 <h4>Notebook Files:</h4>
 <ul>
   <li><b>clustering_analysis.ipynb</b> - performs clustering on tweets using different embeddings</li>
