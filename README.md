@@ -49,11 +49,11 @@ which nvcc
 
 <h4>Method Files:</h4>
 <ul>
-  <li><b>data_preprocessing.py</b> - </li>
-  <li><b>clustering.py</b> - </li>
-  <li><b>sentiment.py</b> - </li>
-  <li><b>correlation.py</b> - </li>
-  <li><b>sentiment.py</b> - </li>
+  <li><b>data_preprocessing.py</b> - contains methods for cleaning tweets and stocks</li>
+  <li><b>clustering.py</b> - supports the clustering_analysis.ipynb file by providing methods for clustering</li>
+  <li><b>sentiment.py</b> - supports the sentiment_analysis.ipynb file by providing methods for sentiment analysis</li>
+  <li><b>correlation.py</b> - supports the correlation_analysis.ipynb file by providing methods for correlation calculations</li>
+  <li><b>main.py</b> - runs the files to show the project results </li>
 </ul>
 
 <h4>Source Directories:</h4>
@@ -64,17 +64,35 @@ which nvcc
 
 <h4>'files' directory structure:</h4>
 <ul>
-  <li><b>files</b> - contains .сsv files which contain data from Elon Musk's tweets and Tesla's stocks after applying various operations</li>
-  <li><b>word clouds</b> - contains wordclouds of clusters from different embedding methods</li>
+  <li><b>musk_tweets.csv</b> - raw data of Elon Musk's tweets</li>
+  <li><b>tesla_stocks.csv</b> - raw data of Tesla's stocks</li>
+  <li><b>clean_stocks.csv</b> - stocks data after preprocessing and adding missing dates using data_preprocessing.py</li>
+  <li><b>clean_tweets_with_stopwords.csv</b> - preprocessed tweets with stopwords from data_preprocessing.py for transformer based embeddings</li>
+  <li><b>clean_tweets_without_stopwords.csv</b> - preprocessed tweets without stopwords from data_preprocessing.py for Bag-of-Words, TF-IDF, and Word2Vec embeddings</li>
+  <li><b>clusterized_tweets_with_stopwords.csv</b> - clusterized tweets with transformer based embeddings from clustering_analysis.ipynb</li>
+  <li><b>clusterized_tweets_without_stopwords.csv</b> - clusterized tweets with Bag-of-Words, TF-IDF, and Word2Vec embeddings from clustering_analysis.ipynb</li>
+  <li><b>sentimented_tweets_with_stopwords.csv</b> - tweets with stopwords run through sentiment analysis from sentiment_analysis.ipynb</li>
+  <li><b>sentimented_tweets_without_stopwords.csv</b> - tweets without stopwords run through sentiment analysis from sentiment_analysis.ipynb</li>
+  <li><b>cramer_results.csv</b> - contains final Cramer's V coefficients for all the method combinations, created from correlation_analysis.ipynb</li>
 </ul>
+
+
+<h4>Modifed methods from the existing code-bases:</h4>
+clustering.py:
+<ul>
+  <li><b>generate_clusters.py</b> - was modified for GPU support</li>
+  <li><b>objective.py</b> - the objective function was modified to the DBCV metric</li>
+  <li><b>generate_clusters.py</b> - was modified for GPU support</li>
+  <li><b>plot_clusters.py</b> - was modified for GPU support and show the results in different scale</li>
+</ul>
+  
 
 
 
 ## Demo 
 As inputs we take the datasets extracted from files musk_tweets.csv and tesla_stocks.csv. The final result with Cramer's V coefficient results can be seen in cramer_results.csv. For your ease, we created a script that describes the files and shows the first five rows. Just run the code below and follow the instructions inside. 
 
-```
-yaml
+```yaml
 python3 main.py
 ```
 
@@ -83,7 +101,8 @@ To see the detailed results of the clustering, sentiment analysis and the correl
 
 ## Datasets
 
-
+1. [Elon Musk Tweets (2010 - 2021)](https://www.kaggle.com/ayhmrba/elon-musk-tweets-2010-2021?select=2021.csv)
+2. [TESLA Stock Data](https://www.kaggle.com/varpit94/tesla-stock-data-updated-till-28jun2021?select=TSLA.csv)
 
 ## Authors
 
