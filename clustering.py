@@ -12,10 +12,11 @@ from collections import Counter
 from IPython.display import display
 import data_preprocessing
 
-#Word2Vec Encoder
-# Original code: https://github.com/KimaruThagna/Nlp_Tuts/blob/master/analytics_vidhya.py 
-def word2vec(tweets, size = 1000, window = 5, min_count = 2, sg = 1, hs = 0, negative = 10, workers = 32, seed = 34):
 
+def word2vec(tweets, size = 1000, window = 5, min_count = 2, sg = 1, hs = 0, negative = 10, workers = 32, seed = 34):
+    """ calculates the Word2Vec embedding, the description of each parameter described below.
+      Code was taken from https://github.com/KimaruThagna/Nlp_Tuts/blob/master/analytics_vidhya.py
+    """
     tokenized_tweet = tweets.apply(lambda x: x.split()) 
 
     model_w2v = gensim.models.Word2Vec(
@@ -35,6 +36,9 @@ def word2vec(tweets, size = 1000, window = 5, min_count = 2, sg = 1, hs = 0, neg
     return wordvec_arrays
 
 def word_vector(tokens, size, model_w2v):
+    """ runs the Word2Vec model to output the embedding result for a single text
+      Code was taken from https://github.com/KimaruThagna/Nlp_Tuts/blob/master/analytics_vidhya.py
+    """
     vec = np.zeros(size).reshape((1, size))
     count = 0
     for word in tokens:
@@ -47,7 +51,7 @@ def word_vector(tokens, size, model_w2v):
         vec /= count
     return vec
 
-#Original code: https://github.com/dborrelli/chat-intents
+
 def generate_clusters(embeddings,
                       n_neighbors,
                       n_components, 
@@ -56,6 +60,7 @@ def generate_clusters(embeddings,
                       random_state = None):
     """
     Returns HDBSCAN objects after first performing dimensionality reduction using UMAP
+    Was modified for GPU support
     
     Arguments:
         message_embeddings: embeddings to use
@@ -66,7 +71,9 @@ def generate_clusters(embeddings,
         random_state: int, random seed
         
     Returns:
-        clusters: HDBSCAN object of clusters and DBCV score
+        clusters: HDBSCAN object of clusters and the DBCV score
+    
+    Code was taken from https://github.com/dborrelli/chat-intents
     """
     
     umap_embeddings = (cuml.UMAP(n_neighbors = n_neighbors, 
@@ -83,10 +90,11 @@ def generate_clusters(embeddings,
     return clusters, hdbscan.validity.validity_index(umap_embeddings.get().astype('double'), clusters.labels_.get(), d = n_components)
 
 
-#Original code: https://github.com/dborrelli/chat-intents
+
 def objective(params, embeddings):
     """
     Objective function for hyperopt to minimize
+    Was modified by changing the objective function to the DBCV metric multiplied by (-1)
 
     Arguments:
         params: dict, contains keys for 'n_neighbors', 'n_components',
@@ -100,8 +108,9 @@ def objective(params, embeddings):
               outside desired range for number of clusters
         label_count: int, number of unique cluster labels, including noise
         status: string, hypoeropt status
-
-        """
+    
+    Code was taken from https://github.com/dborrelli/chat-intents
+    """
     
     clusters, dbcv = generate_clusters(embeddings, 
                                  n_neighbors = params['n_neighbors'], 
@@ -116,7 +125,7 @@ def objective(params, embeddings):
     return {'loss': loss, 'label_count': label_count, 'status': STATUS_OK}
 
 
-#Original code: https://github.com/dborrelli/chat-intents
+
 def bayesian_search(embeddings, space,  max_evals=100):
     """
     Perform bayesian search on hyperparameter space using hyperopt
@@ -137,6 +146,7 @@ def bayesian_search(embeddings, space,  max_evals=100):
                        tested
         trials: hyperopt trials object for search
 
+    Code was taken from https://github.com/dborrelli/chat-intents
         """
     
     trials = Trials()
@@ -163,17 +173,18 @@ def bayesian_search(embeddings, space,  max_evals=100):
     return best_params, best_clusters, trials
 
 
-#Original code: https://github.com/dborrelli/chat-intents
 def plot_clusters(embeddings, clusters, n_neighbors=15, min_dist=0.0):
     """
-    Reduce dimensionality of best clusters and plot in 2D
+    Reduce dimensionality of best clusters and plot in 2D. 
 
     Arguments:
         embeddings: embeddings to use
-        clusteres: HDBSCAN object of clusters
+        clusters: HDBSCAN object of clusters
         n_neighbors: float, UMAP hyperparameter n_neighbors
         min_dist: float, UMAP hyperparameter min_dist for effective
                   minimum distance between embedded points
+    
+    Code was taken from https://github.com/dborrelli/chat-intents
 
     """
     fig, ax = plt.subplots(figsize=(14, 8))
@@ -201,9 +212,18 @@ def plot_clusters(embeddings, clusters, n_neighbors=15, min_dist=0.0):
     plt.show()
 
 
-#Get top-10 words from each cluster  
+ 
 def top_ten_words(tweets, clusters):
-    #Cleaning
+    """
+    Shows the top-10 frequent words from each cluster. 
+
+    Arguments:
+        tweets: tweet data
+        clusters: result clusters after HDBSCAN was applied
+
+    """
+
+    #Remove unnecessary characters and words from the text
     f0 = lambda x: data_preprocessing.remove_stopword(x)
     f1 = lambda x: x.replace('.', '')
     f2 = lambda x: x.replace(',', '')
@@ -216,6 +236,8 @@ def top_ten_words(tweets, clusters):
     d = {'Tweet': tweets, 'Cluster': clusters}
     df = pd.DataFrame(d)
     summary = []
+
+    #Calculate most common ten words in each cluster
     for cluster in np.unique(clusters):
         top = Counter([item for sublist in  df[(df['Cluster'] == cluster)]['Tweet'] for item in sublist])
         temp = pd.DataFrame(top.most_common(10))
@@ -225,10 +247,21 @@ def top_ten_words(tweets, clusters):
     
     summary_df = pd.DataFrame (summary, columns = ['Cluster', 'Size', 'Common words', 'Counts'])
     summary_df.style.set_properties(subset=['Common Words', 'Counts'], **{'width': '300px'})
+
+    #Displays the result
     display(summary_df)
 
 def top_ten_words_v2(tweets, clusters):
-    #Cleaning
+    """
+    Returns the top-10 frequent words from each cluster. 
+
+    Arguments:
+        tweets: tweet data
+        clusters: result clusters after HDBSCAN was applied
+
+    """
+
+    #Remove unnecessary characters and words from the text
     f0 = lambda x: data_preprocessing.remove_stopword(x)
     f1 = lambda x: x.replace('.', '')
     f2 = lambda x: x.replace(',', '')
@@ -241,6 +274,8 @@ def top_ten_words_v2(tweets, clusters):
     d = {'Tweet': tweets, 'Cluster': clusters}
     df = pd.DataFrame(d)
     summary = []
+
+    #Calculate most common ten words in each cluster
     for cluster in np.unique(clusters):
         top = Counter([item for sublist in  df[(df['Cluster'] == cluster)]['Tweet'] for item in sublist])
         temp = pd.DataFrame(top.most_common(10))
@@ -250,5 +285,7 @@ def top_ten_words_v2(tweets, clusters):
     
     summary_df = pd.DataFrame (summary, columns = ['Cluster', 'Size', 'Common words', 'Counts'])
     summary_df.style.set_properties(subset=['Common Words', 'Counts'], **{'width': '300px'})
+
+    #Returns the result
     return summary_df
         
