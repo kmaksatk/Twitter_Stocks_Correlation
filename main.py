@@ -26,6 +26,9 @@ if __name__ == "__main__":
             break
         if command in file_names.keys():
             df = pd.read_csv(folder + file_names[command])
-            display(df)
+            print("\nThe description of the "+str(file_names[command])+" file")
+            display(df.describe())
+            print("\nThe first 5 rows of the "+str(file_names[command])+" file")
+            display(df.head())
         else:
             print("No such command")
