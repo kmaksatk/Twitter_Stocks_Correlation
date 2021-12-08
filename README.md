@@ -20,7 +20,7 @@
 
 
 ## Installation
-For this project, you must have the ```cuda-11.2``` support. Run the code below to install the required libraries for this project:
+For this project, you must have the ```python-3.7``` and ```cuda-11.2``` support. Run the code below to install the required libraries for this project:
 
 ```yaml
 # clone project
