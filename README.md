@@ -8,10 +8,16 @@
 ## Description
 
 <p float="center">
-  <img src="https://qph.fs.quoracdn.net/main-qimg-c25657afa1b0c6fd10d2e453ef1e114f", width = 49%, height = 250px>
-   <img src="https://cdn.wccftech.com/wp-content/uploads/2020/05/TESLA-STOCK-PRICE-11-51-AM-ET-1-MAY-2020-1480x888.png", width = 49%, height = 250px>
+  <img src="https://qph.fs.quoracdn.net/main-qimg-c25657afa1b0c6fd10d2e453ef1e114f", width = 49%, height = 230px>
+   <img src="https://cdn.wccftech.com/wp-content/uploads/2020/05/TESLA-STOCK-PRICE-11-51-AM-ET-1-MAY-2020-1480x888.png", width = 49%, height = 230px>
 </p>
 “Tesla’s stock price is too high imo” - this tweet was posted on the 1st May of 2020 by Elon Musk. On the same day, Tesla's stock price had a significant drop by ten percent. The link between Twitter and Stocks markets has been explored before. Most of them dealt with the crowd's opinion and tweets were either labeled manually or selected with certain conditions. The problem with such an approach is that it doesn't consider the whole scale of tweets, and possibly overfits in some cases. Meanwhile, our project focuses on the entire history of Elon Musk's Twitter and applies unsupervised techniques for identifying Tesla-related tweets. Our agenda is to cluster the tweets using unsupervised learning methods to find the Tesla-related tweets, then find their sentiments and finally get the correlation with stocks. Ultimately, we want to make a pipeline that can identify the topic of the new tweet, its sentiment and tell if the stock will increase or decrease. We checked the following hypothesis, does the sentiment of Musk's tweets have any correlation with Tesla's stock prices throughout 10 years.  There are specific cases that show the influence of Musk's social media tool on the stocks market, however, the latter depends on so many other factors like news about their competitors, quality of their products, etc. Our project tried to weigh Twitter's influence on Tesla's economy. For that purpose, we calculated the Cramer's V correlation coefficient. While we understand that the tone of the tweet may not correlate with the increase or decrease of the stocks, our hypothesis is based on several previous works that have tested the same exact connection.
+
+## Project pipeline
+<p float="center">
+  <img src="files/pipeline.png">
+</p>
+
 
 ## Installation
 For this project, you must have the ```cuda-11.2``` support. Run the code below to install the required libraries for this project:
@@ -73,6 +79,7 @@ Topic_modelling: This is a work in progress, its not mentioned in the paper, but
   <li><b>sentimented_tweets_with_stopwords.csv</b> - tweets with stopwords run through sentiment analysis from sentiment_analysis.ipynb</li>
   <li><b>sentimented_tweets_without_stopwords.csv</b> - tweets without stopwords run through sentiment analysis from sentiment_analysis.ipynb</li>
   <li><b>cramer_results.csv</b> - contains final Cramer's V coefficients for all the method combinations, created from correlation_analysis.ipynb</li>
+  <li><b>pipeline.png</b> - contains the architecture pipeline of our project
 </ul>
 
 
