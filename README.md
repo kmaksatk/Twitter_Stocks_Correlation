@@ -28,7 +28,7 @@ git clone https://github.com/kmaksatk/Twitter_Stocks_Correlation.git
 cd Twitter_Stocks_Correlation
 
 # create conda environment with necessary libraries
-conda env create --name your_env_name --file requirements.yaml
+conda env create --name your_env_name --file requirements.yml
 conda activate your_env_name
 ```
 If you have the required version of ```cuda```, but at startup it says that the version of cuda and libraries do not match, try the following commands:
